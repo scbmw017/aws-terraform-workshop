@@ -1,21 +1,23 @@
-terraform {
-  required_version = ">= 0.11.1"
+variable "region" {
+  description = "AWS Region where this infrastructure should be deployed"
+  default = "us-east-1"
 }
 
-provider "aws" {
-  region = "${var.aws_region}"
+variable "identity" {
+  description = "A unique name for your resources"
 }
 
-resource "aws_instance" "web" {
-  ami           = "${var.ami_id}"
-  instance_type = "${var.instance_type}"
-  availability_zone = "${var.aws_region}a"
-  associate_public_ip_address = "true"
-  count = 1
-  root_block_device {
-    volume_size = "${var.volume_size}"
-  }
-  tags {
-    Name = "${var.name}"
-  }
+variable "ami" {
+  description = "The Amazon Machine Image for new instances."
+  default     = "ami-e24b7d9d"
+}
+
+variable "ingress_cidr" {
+  default     = "0.0.0.0/0"
+  description = "IP block from which connections to this instance will be made"
+}
+
+variable "num_webs" {
+  description = "The number of servers to run"
+  default     = "2"
 }
