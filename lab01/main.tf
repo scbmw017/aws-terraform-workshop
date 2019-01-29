@@ -1,23 +1,12 @@
-variable "region" {
-  description = "AWS Region where this infrastructure should be deployed"
-  default = "us-east-1"
+provider "aws" {
+  region = "${var.region}"
 }
 
-variable "identity" {
-  description = "A unique name for your resources"
-}
+module "server" {
+  source = "./server"
 
-variable "ami" {
-  description = "The Amazon Machine Image for new instances."
-  default     = "ami-e24b7d9d"
-}
-
-variable "ingress_cidr" {
-  default     = "0.0.0.0/0"
-  description = "IP block from which connections to this instance will be made"
-}
-
-variable "num_webs" {
-  description = "The number of servers to run"
-  default     = "2"
+  num_webs     = "${var.num_webs}"
+  identity     = "${var.identity}"
+  ami          = "${var.ami}"
+  ingress_cidr = "${var.ingress_cidr}"
 }
